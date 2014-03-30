@@ -28,6 +28,11 @@
 					Publicar
 				</a>
 			</div>
+			<div>
+				<a href="#14" class="sizer">A</a>
+				<a href="#16" class="sizer">A</a>
+				<a href="#18" class="sizer">A</a>
+			</div>
 		</div>
 		<div class="usuario">
 			<figure class="avatar">
@@ -83,7 +88,7 @@
 			<div class="acciones">
 				<div class="votos">
 					<a class="up" href="#"></a>
-					<span class="total">156</span>
+					<span class="total">12</span>
 					<a class="down" href="#"></a>
 				</div>
 				<div class="datos">
@@ -113,7 +118,7 @@
 			<div class="acciones">
 				<div class="votos">
 					<a class="up" href="#"></a>
-					<span class="total">156</span>
+					<span class="total">69</span>
 					<a class="down" href="#"></a>
 				</div>
 				<div class="datos">
@@ -306,6 +311,43 @@
 				$('input[type=text]').val('');
 				$('form').slideUp();
 		}
+		function crearSizer(pixels){
+			return function(){
+				$('body').css('font-size', pixels+'px');
+			}
+		}
+		$('.sizer').each(function(i, link){
+			var pixels = $(link).prop('hash').substring(1);
+			$(link)
+				.css('font-size', pixels+'px')
+				.on('click', crearSizer(pixels));
+		});
+
+		function crearContador(valorInicial){
+			var contador = valorInicial || 0;
+			return{
+				up : function(){
+					return ++contador;
+				},
+				down : function(){
+					return --contador;
+				}
+			};
+		};
+		$('.total').each(function(i, elem){
+			var conTotal = crearContador(elem.innerHTML);
+			$(elem)
+				.siblings('.up')
+					.on('click', function(ev){
+						ev.preventDefault();
+						$(elem).html(conTotal.up());
+					})
+				.siblings('.down')
+					.on('click', function(ev){
+						$(elem).html(conTotal.down())
+						ev.preventDefault();
+					});
+		});
 	});
 	</script>
 </body>
